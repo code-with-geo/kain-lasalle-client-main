@@ -1,5 +1,5 @@
 import { ShoppingBag, Settings, Logout } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
 	Avatar,
@@ -8,10 +8,12 @@ import {
 	Divider,
 	Menu,
 	ListItemIcon,
+	Badge,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useUserData } from "../../context/User";
+import { useCart } from "../../context/Cart";
 
 const Container = styled.div`
 	height: 120px;
@@ -46,6 +48,7 @@ const Left = styled.div`
 const Logo = styled.img`
 	height: 100px;
 	width: 130px;
+	cursor: pointer;
 `;
 
 const Button = styled.button`
@@ -60,6 +63,7 @@ const Button = styled.button`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 `;
 
 const Right = styled.div`
@@ -88,7 +92,8 @@ function Top() {
 
 	const data = useUserData();
 	const [cookies, setCookies] = useCookies(["access_token"]);
-
+	const { cartCount } = useCart();
+	let count = cartCount();
 	const _logout = () => {
 		setCookies("access_token", "");
 		window.localStorage.clear();
@@ -103,6 +108,9 @@ function Top() {
 						<Logo
 							src='https://firebasestorage.googleapis.com/v0/b/studies-14951.appspot.com/o/assets%2Flogo-1.png?alt=media&token=6cefb280-8676-4b1a-8857-20b5da4757e6'
 							alt=''
+							onClick={() => {
+								navigate("/");
+							}}
 						/>
 					</Left>
 					<Right>
@@ -129,12 +137,14 @@ function Top() {
 							) : (
 								<>
 									<ListItem>
-										<Button
-											padding='6px'
-											marginRight='10px'
-											onClick={() => navigate("/cart")}>
-											<ShoppingBag fontSize='small' />
-										</Button>
+										<Badge badgeContent={count} color='secondary'>
+											<Button
+												padding='6px'
+												marginRight='10px'
+												onClick={() => navigate("/cart")}>
+												<ShoppingBag fontSize='small' />
+											</Button>
+										</Badge>
 									</ListItem>
 									<ListItem>
 										<Chip

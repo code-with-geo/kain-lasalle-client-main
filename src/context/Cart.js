@@ -23,22 +23,23 @@ const UseCartData = (userID) => {
 				console.log(error);
 			}
 		};
-		getCart();
+		const interval = setInterval(getCart, 1000);
+		return () => clearInterval(interval);
 	}, [userID]);
 	return cart;
 };
 
-const UseCartTotal = (userID) => {
-	const [total, setTotal] = useState(null);
+const UseCartCount = (userID) => {
+	const [count, setCount] = useState(null);
 
 	useEffect(() => {
-		const getTotal = () => {
+		const getCount = () => {
 			try {
-				Axios.post(`http://localhost:3001/cart/total`, {
+				Axios.post(`http://localhost:3001/cart/count`, {
 					userID,
 				})
 					.then((res) => {
-						setTotal(res.data.total);
+						setCount(res.data.cart);
 					})
 					.catch((err) => {
 						if (err.response) Error();
@@ -48,18 +49,19 @@ const UseCartTotal = (userID) => {
 				console.log(error);
 			}
 		};
-		getTotal();
+		const interval = setInterval(getCount, 1000);
+		return () => clearInterval(interval);
 	}, [userID]);
-	return total;
+	return count;
 };
 
 export const CartProvider = ({ userID, children }) => {
 	const cartData = () => UseCartData(userID);
-	const cartTotal = () => UseCartTotal(userID);
+	const cartCount = () => UseCartCount(userID);
 
 	const cartMethods = {
 		cartData,
-		cartTotal,
+		cartCount,
 	};
 	return (
 		<CartContext.Provider value={cartMethods}>{children}</CartContext.Provider>

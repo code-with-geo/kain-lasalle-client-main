@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Label, Button } from "../Components.styled";
 import { useCart } from "../../context/Cart";
+import Axios from "axios";
+import { useGetUserID } from "../../hooks/User";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
 	width: 100%;
@@ -57,6 +60,7 @@ const Footer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: right;
+	flex-direction: column;
 `;
 
 const Wrapper = styled.div`
@@ -64,23 +68,105 @@ const Wrapper = styled.div`
 	align-items: center;
 `;
 
+const ButtonContainer = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 20px;
+`;
+
 function Items() {
-	const { cartData, cartTotal } = useCart();
+	const navigate = useNavigate();
+	const { cartData } = useCart();
 	const cart = cartData();
-	const total = cartTotal();
 
 	const totalCart = () => {
 		let SubTotal = 0;
-		{
-			total != null &&
-				total.map((value) => {
-					SubTotal += value.total;
-				});
-		}
+		cart != null &&
+			cart.map((value) => {
+				return (SubTotal += value.subtotal);
+			});
 		return SubTotal;
 	};
 
+	const getStoreID = () => {
+		let id = "null";
+		if (cart != null) {
+			id = cart[0].storeID;
+		}
+		return id;
+	};
+
+	const userID = useGetUserID();
 	const subtotal = totalCart();
+
+	const createOrder = () => {
+		try {
+			Axios.post(`http://localhost:3001/orders/create`, {
+				userID,
+				storeID: getStoreID(),
+				total: subtotal,
+			})
+				.then((res) => {
+					if (res.data.responsecode === "402") {
+						console.log(res.data.responsecode);
+					} else if (res.data.responsecode === "200") {
+						navigate("/");
+						window.open(`${res.data.paymenturl}`, "_blank");
+					}
+				})
+				.catch((err) => {
+					if (err.response) Error();
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const _addToCart = (productID, price) => {
+		try {
+			Axios.post(`http://localhost:3001/cart/add/${getStoreID()}`, {
+				userID,
+				productID,
+				price,
+				units: 1,
+			})
+				.then((res) => {
+					if (res.data.responsecode === "402") {
+						alert(res.data.message);
+					} else if (res.data.responsecode === "200") {
+						alert(res.data.message);
+					}
+				})
+				.catch((err) => {
+					if (err.response) Error();
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const removeToCart = (id) => {
+		try {
+			Axios.post(`http://localhost:3001/cart/remove`, {
+				userID,
+				productID: id,
+			})
+				.then((res) => {
+					if (res.data.responsecode === "402") {
+						alert(res.data.message);
+					} else if (res.data.responsecode === "200") {
+						alert(res.data.message);
+					}
+				})
+				.catch((err) => {
+					if (err.response) Error();
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<>
 			{cart != null &&
@@ -92,11 +178,23 @@ function Items() {
 									<Header>
 										<Left>
 											<UnitsContainer>
-												<Button padding='5px' marginRight='10px' bgColor='#fff'>
+												<Button
+													padding='5px'
+													marginRight='10px'
+													bgColor='#fff'
+													onClick={() => {
+														removeToCart(value._id);
+													}}>
 													-
 												</Button>
 												<Label>{cart.units}</Label>
-												<Button padding='5px' marginLeft='10px' bgColor='#fff'>
+												<Button
+													padding='5px'
+													marginLeft='10px'
+													bgColor='#fff'
+													onClick={() => {
+														_addToCart(value._id, value.price);
+													}}>
 													+
 												</Button>
 											</UnitsContainer>
@@ -113,7 +211,7 @@ function Items() {
 											</ProductContainer>
 										</Left>
 										<Right>
-											<Label>PHP {cart.price * cart.units}</Label>
+											<Label>PHP {cart.subtotal}</Label>
 										</Right>
 									</Header>
 								</Container>
@@ -127,14 +225,32 @@ function Items() {
 					<Label marginRight='200px'>Total</Label>
 					<Label>PHP {subtotal}</Label>
 				</Wrapper>
-				<Button
-					onClick={() => {
-						window.open(
-							"https://pm.link/org-FRnQyvnkN971qNXHAi4Y3k43/test/2iEzYr8"
-						);
-					}}>
-					Check Out
-				</Button>
+				<ButtonContainer>
+					<Button
+						padding='10px'
+						width='250px'
+						height='40px'
+						marginRight='20px'
+						bgColor='#dcdede'
+						borderRadius='5px'
+						onClick={() => {
+							navigate("/");
+						}}>
+						Back
+					</Button>
+					<Button
+						padding='10px'
+						width='250px'
+						height='40px'
+						bgColor='#b0c5a4'
+						color='#fff'
+						borderRadius='5px'
+						onClick={() => {
+							createOrder();
+						}}>
+						Place Order
+					</Button>
+				</ButtonContainer>
 			</Footer>
 		</>
 	);

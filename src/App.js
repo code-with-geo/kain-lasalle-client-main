@@ -9,6 +9,7 @@ import Landing from "./pages/Landing";
 import { StoreProvider } from "./context/Store";
 import Store from "./pages/Store";
 import Cart from "./pages/Cart";
+import Profile from "./pages/dashboard/Profile";
 function App() {
 	return (
 		<div className='App'>
@@ -23,6 +24,7 @@ function App() {
 							<Route index element={<Home />} />
 							<Route path='/store/:id' element={<Store />} />
 							<Route path='/cart' element={<Cart />} />
+							<Route path='/manage-account' element={<Profile />} />
 						</Route>
 					</Routes>
 				</Router>

@@ -74,7 +74,7 @@ function Cards() {
 										{product.description}
 									</Label>
 									<Label fontSize='12px' fontWeight='500' marginBottom='10px'>
-										{product.price}
+										PHP {product.price}
 									</Label>
 								</Content>
 							</Wrapper>
