@@ -57,11 +57,14 @@ function Signup() {
 	const _signup = (data, event) => {
 		event.preventDefault();
 		try {
-			Axios.post(`http://localhost:3001/users/signup`, {
-				name: data.Name,
-				email: data.Email,
-				password: data.Password,
-			})
+			Axios.post(
+				`https://kain-lasalle-main-backend.onrender.com/users/signup`,
+				{
+					name: data.Name,
+					email: data.Email,
+					password: data.Password,
+				}
+			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
 						alert(res.data.message);

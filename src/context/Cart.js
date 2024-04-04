@@ -35,9 +35,12 @@ const UseCartCount = (userID) => {
 	useEffect(() => {
 		const getCount = () => {
 			try {
-				Axios.post(`http://localhost:3001/cart/count`, {
-					userID,
-				})
+				Axios.post(
+					`https://kain-lasalle-main-backend.onrender.com/cart/count`,
+					{
+						userID,
+					}
+				)
 					.then((res) => {
 						setCount(res.data.cart);
 					})

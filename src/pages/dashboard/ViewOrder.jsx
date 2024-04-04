@@ -74,9 +74,12 @@ function ViewOrder() {
 
 	const payOrder = () => {
 		try {
-			Axios.post(`http://localhost:3001/orders/verify`, {
-				orderID,
-			})
+			Axios.post(
+				`https://kain-lasalle-main-backend.onrender.com/orders/verify`,
+				{
+					orderID,
+				}
+			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
 						console.log(res.data.message);

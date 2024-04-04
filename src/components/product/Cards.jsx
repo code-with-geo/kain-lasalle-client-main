@@ -37,12 +37,15 @@ function Cards() {
 
 	const _addToCart = (productID, price) => {
 		try {
-			Axios.post(`http://localhost:3001/cart/add/${id}`, {
-				userID,
-				productID,
-				price,
-				units: 1,
-			})
+			Axios.post(
+				`https://kain-lasalle-main-backend.onrender.com/cart/add/${id}`,
+				{
+					userID,
+					productID,
+					price,
+					units: 1,
+				}
+			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
 						alert(res.data.message);

@@ -59,9 +59,12 @@ function Reset() {
 		event.preventDefault();
 		try {
 			if (data.Password === data.Confirm) {
-				Axios.post(`http://localhost:3001/users/${userID}/reset/${token}`, {
-					password: data.Password,
-				})
+				Axios.post(
+					`https://kain-lasalle-main-backend.onrender.com/users/${userID}/reset/${token}`,
+					{
+						password: data.Password,
+					}
+				)
 					.then((res) => {
 						if (res.data.responsecode === "402") {
 							alert(res.data.message);

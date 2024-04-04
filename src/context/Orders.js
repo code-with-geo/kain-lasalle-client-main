@@ -61,9 +61,12 @@ const GetOrdersByID = (orderID) => {
 	useEffect(() => {
 		const getOrders = () => {
 			try {
-				Axios.post(`http://localhost:3001/orders/get-by-order-id`, {
-					orderID,
-				})
+				Axios.post(
+					`https://kain-lasalle-main-backend.onrender.com/orders/get-by-order-id`,
+					{
+						orderID,
+					}
+				)
 					.then((res) => {
 						setOrders(res.data.orders);
 					})

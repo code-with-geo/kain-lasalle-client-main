@@ -57,9 +57,12 @@ function Forgot() {
 	const _forgot = (data, event) => {
 		event.preventDefault();
 		try {
-			Axios.post(`http://localhost:3001/users/forgot`, {
-				email: data.Email,
-			})
+			Axios.post(
+				`https://kain-lasalle-main-backend.onrender.com/users/forgot`,
+				{
+					email: data.Email,
+				}
+			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
 						alert(res.data.message);

@@ -9,7 +9,7 @@ export const StoreProvider = ({ children }) => {
 	useEffect(() => {
 		const getStore = () => {
 			try {
-				Axios.get(`http://localhost:3001/stores/`)
+				Axios.get(`https://kain-lasalle-main-backend.onrender.com/stores/`)
 					.then((res) => {
 						setStore(res.data.store);
 					})

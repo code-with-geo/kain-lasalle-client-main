@@ -10,7 +10,9 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		const getProducts = () => {
 			try {
-				Axios.get(`http://localhost:3001/users/${userID}`)
+				Axios.get(
+					`https://kain-lasalle-main-backend.onrender.com/users/${userID}`
+				)
 					.then((res) => {
 						setUser(res.data.user);
 					})

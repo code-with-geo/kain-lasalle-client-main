@@ -9,7 +9,9 @@ const useProductData = (storeID) => {
 	useEffect(() => {
 		const getStore = () => {
 			try {
-				Axios.get(`http://localhost:3001/products/${storeID}`)
+				Axios.get(
+					`https://kain-lasalle-main-backend.onrender.com/products/${storeID}`
+				)
 					.then((res) => {
 						setProduct(res.data.products);
 					})

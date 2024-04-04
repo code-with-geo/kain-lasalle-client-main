@@ -102,11 +102,14 @@ function Items() {
 
 	const createOrder = () => {
 		try {
-			Axios.post(`http://localhost:3001/orders/create`, {
-				userID,
-				storeID: getStoreID(),
-				total: subtotal,
-			})
+			Axios.post(
+				`https://kain-lasalle-main-backend.onrender.com/orders/create`,
+				{
+					userID,
+					storeID: getStoreID(),
+					total: subtotal,
+				}
+			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
 						console.log(res.data.responsecode);
@@ -125,12 +128,15 @@ function Items() {
 
 	const _addToCart = (productID, price) => {
 		try {
-			Axios.post(`http://localhost:3001/cart/add/${getStoreID()}`, {
-				userID,
-				productID,
-				price,
-				units: 1,
-			})
+			Axios.post(
+				`https://kain-lasalle-main-backend.onrender.com/cart/add/${getStoreID()}`,
+				{
+					userID,
+					productID,
+					price,
+					units: 1,
+				}
+			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
 						alert(res.data.message);
@@ -148,7 +154,7 @@ function Items() {
 
 	const removeToCart = (id) => {
 		try {
-			Axios.post(`http://localhost:3001/cart/remove`, {
+			Axios.post(`https://kain-lasalle-main-backend.onrender.com/cart/remove`, {
 				userID,
 				productID: id,
 			})
