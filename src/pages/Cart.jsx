@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Label } from "../components/Components.styled";
 import Items from "../components/cart/Items";
-import { CartProvider, useCart } from "../context/Cart";
-import { useGetUserID } from "../hooks/User";
 
 const Container = styled.div`
 	width: 100%;
@@ -32,7 +30,6 @@ const Body = styled.div`
 `;
 
 function Cart() {
-	const userID = useGetUserID();
 	return (
 		<>
 			<Container>
@@ -46,11 +43,10 @@ function Cart() {
 							My Cart
 						</Label>
 					</Header>
-					<CartProvider userID={userID}>
-						<Body>
-							<Items />
-						</Body>
-					</CartProvider>
+
+					<Body>
+						<Items />
+					</Body>
 				</Content>
 			</Container>
 		</>

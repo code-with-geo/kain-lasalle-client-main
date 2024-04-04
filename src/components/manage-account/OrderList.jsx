@@ -17,7 +17,6 @@ const Body = styled.div`
 `;
 
 function OrderList() {
-	const userID = useGetUserID();
 	return (
 		<Container>
 			<Header>
@@ -26,9 +25,7 @@ function OrderList() {
 				</Label>
 			</Header>
 			<Body>
-				<OrderProvider userID={userID}>
-					<OrderTable />
-				</OrderProvider>
+				<OrderTable />
 			</Body>
 		</Container>
 	);

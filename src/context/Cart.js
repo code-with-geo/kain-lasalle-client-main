@@ -55,16 +55,18 @@ const UseCartCount = (userID) => {
 	return count;
 };
 
-export const CartProvider = ({ userID, children }) => {
-	const cartData = () => UseCartData(userID);
-	const cartCount = () => UseCartCount(userID);
+export const CartProvider = (props) => {
+	const cartData = (userID) => UseCartData(userID);
+	const cartCount = (userID) => UseCartCount(userID);
 
 	const cartMethods = {
 		cartData,
 		cartCount,
 	};
 	return (
-		<CartContext.Provider value={cartMethods}>{children}</CartContext.Provider>
+		<CartContext.Provider value={cartMethods}>
+			{props.children}
+		</CartContext.Provider>
 	);
 };
 

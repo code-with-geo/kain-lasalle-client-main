@@ -21,7 +21,8 @@ export const StoreProvider = ({ children }) => {
 				console.log(error);
 			}
 		};
-		getStore();
+		const interval = setInterval(getStore, 1000);
+		return () => clearInterval(interval);
 	}, []);
 
 	return (

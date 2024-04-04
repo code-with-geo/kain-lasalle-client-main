@@ -76,9 +76,10 @@ const ButtonContainer = styled.div`
 `;
 
 function Items() {
+	const userID = useGetUserID();
 	const navigate = useNavigate();
 	const { cartData } = useCart();
-	const cart = cartData();
+	const cart = cartData(userID);
 
 	const totalCart = () => {
 		let SubTotal = 0;
@@ -97,7 +98,6 @@ function Items() {
 		return id;
 	};
 
-	const userID = useGetUserID();
 	const subtotal = totalCart();
 
 	const createOrder = () => {

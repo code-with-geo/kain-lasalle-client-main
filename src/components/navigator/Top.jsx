@@ -1,5 +1,5 @@
 import { ShoppingBag, Settings, Logout } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
 	Avatar,
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useUserData } from "../../context/User";
 import { useCart } from "../../context/Cart";
+import { useGetUserID } from "../../hooks/User";
 
 const Container = styled.div`
 	height: 120px;
@@ -91,11 +92,12 @@ function Top() {
 	};
 
 	const data = useUserData();
-	const [cookies, setCookies] = useCookies(["access_token"]);
+	const [cookies, setCookies, removeCookie] = useCookies(["access_token"]);
 	const { cartCount } = useCart();
-	let count = cartCount();
+	const userID = useGetUserID();
+	let count = cartCount(userID);
 	const _logout = () => {
-		setCookies("access_token", "");
+		removeCookie("access_token");
 		window.localStorage.clear();
 		navigate("/login");
 	};
@@ -137,7 +139,9 @@ function Top() {
 							) : (
 								<>
 									<ListItem>
-										<Badge badgeContent={count} color='secondary'>
+										<Badge
+											badgeContent={count != null && count}
+											color='secondary'>
 											<Button
 												padding='6px'
 												marginRight='10px'
@@ -203,14 +207,6 @@ function Top() {
 												<Avatar fontSize='small' /> Manage Account
 											</MenuItem>
 											<Divider />
-											<MenuItem
-												onClick={() => navigate("/settings")}
-												sx={{ fontSize: "14px" }}>
-												<ListItemIcon>
-													<Settings fontSize='small' />
-												</ListItemIcon>
-												Settings
-											</MenuItem>
 											<MenuItem
 												sx={{ fontSize: "14px" }}
 												onClick={() => _logout()}>
