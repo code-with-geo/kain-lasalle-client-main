@@ -9,7 +9,7 @@ const UseCartData = (userID) => {
 	useEffect(() => {
 		const getCart = () => {
 			try {
-				Axios.post(`http://localhost:3001/cart/`, {
+				Axios.post(`https://kain-lasalle-main-backend.onrender.com/cart/`, {
 					userID,
 				})
 					.then((res) => {
