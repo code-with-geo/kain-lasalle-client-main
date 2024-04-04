@@ -9,7 +9,7 @@ const UseOrderData = (userID) => {
 	useEffect(() => {
 		const getOrder = () => {
 			try {
-				Axios.post(`http://localhost:3001/orders/`, {
+				Axios.post(`https://kain-lasalle-main-backend.onrender.com/orders/`, {
 					userID,
 				})
 					.then((res) => {
@@ -35,9 +35,12 @@ const GetOrderItems = (orderID) => {
 	useEffect(() => {
 		const getAllItems = () => {
 			try {
-				Axios.post(`http://localhost:3001/orders/get-products`, {
-					orderID,
-				})
+				Axios.post(
+					`https://kain-lasalle-main-backend.onrender.com/orders/get-products`,
+					{
+						orderID,
+					}
+				)
 					.then((res) => {
 						setItems(res.data.orders);
 					})
