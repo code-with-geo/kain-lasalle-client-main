@@ -99,7 +99,12 @@ function Forgot() {
 									/>
 								</ListItem>
 								<ListItem>
-									<Button height='40px' width='340px' borderRadius='30px'>
+									<Button
+										height='40px'
+										width='340px'
+										borderRadius='30px'
+										bgColor='#b0c5a4'
+										color='#fff'>
 										Continue
 									</Button>
 								</ListItem>

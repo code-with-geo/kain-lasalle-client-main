@@ -127,7 +127,9 @@ function Signup() {
 										height='40px'
 										width='340px'
 										borderRadius='30px'
-										type='submit'>
+										type='submit'
+										bgColor='#b0c5a4'
+										color='#fff'>
 										Continue
 									</Button>
 								</ListItem>
