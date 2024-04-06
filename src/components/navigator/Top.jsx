@@ -140,7 +140,7 @@ function Top() {
 								<>
 									<ListItem>
 										<Badge
-											badgeContent={count != null && count}
+											badgeContent={count != null ? count : 0}
 											color='secondary'>
 											<Button
 												padding='6px'
