@@ -82,7 +82,7 @@ function ViewOrder() {
 			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
-						console.log(res.data.message);
+						alert(res.data.message);
 					} else if (res.data.responsecode === "200") {
 						window.open(`${res.data.paymentURL}`, "_blank");
 					}
