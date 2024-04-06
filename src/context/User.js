@@ -25,7 +25,7 @@ export const UserProvider = ({ children }) => {
 			}
 		};
 		getProducts();
-	}, []);
+	}, [userID]);
 
 	return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };

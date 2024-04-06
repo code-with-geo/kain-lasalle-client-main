@@ -12,6 +12,7 @@ import Cart from "./pages/Cart";
 import Profile from "./pages/dashboard/Profile";
 import ViewOrder from "./pages/dashboard/ViewOrder";
 import { OrderProvider } from "./context/Orders";
+import VerifyEmail from "./pages/authentication/VerifyEmail";
 function App() {
 	return (
 		<div className='App'>
@@ -23,6 +24,7 @@ function App() {
 							<Route path='/signup' element={<Signup />} />
 							<Route path='/forgot' element={<Forgot />} />
 							<Route path='/:userID/reset/:token' element={<Reset />} />
+							<Route path='/:userID/verify/:token' element={<VerifyEmail />} />
 							<Route path='/' element={<Landing />}>
 								<Route index element={<Home />} />
 								<Route path='/store/:id' element={<Store />} />
