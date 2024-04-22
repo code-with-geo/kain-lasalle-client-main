@@ -13,27 +13,38 @@ import Profile from "./pages/dashboard/Profile";
 import ViewOrder from "./pages/dashboard/ViewOrder";
 import { OrderProvider } from "./context/Orders";
 import VerifyEmail from "./pages/authentication/VerifyEmail";
+import EditProfile from "./pages/dashboard/EditProfile";
+import { UserProvider } from "./context/User";
 function App() {
 	return (
 		<div className='App'>
 			<StoreProvider>
 				<OrderProvider>
-					<Router>
-						<Routes>
-							<Route path='/login' element={<Login />} />
-							<Route path='/signup' element={<Signup />} />
-							<Route path='/forgot' element={<Forgot />} />
-							<Route path='/:userID/reset/:token' element={<Reset />} />
-							<Route path='/:userID/verify/:token' element={<VerifyEmail />} />
-							<Route path='/' element={<Landing />}>
-								<Route index element={<Home />} />
-								<Route path='/store/:id' element={<Store />} />
-								<Route path='/cart' element={<Cart />} />
-								<Route path='/manage-account' element={<Profile />} />
-								<Route path='/orders/view/:orderID' element={<ViewOrder />} />
-							</Route>
-						</Routes>
-					</Router>
+					<UserProvider>
+						<Router>
+							<Routes>
+								<Route path='/login' element={<Login />} />
+								<Route path='/signup' element={<Signup />} />
+								<Route path='/forgot' element={<Forgot />} />
+								<Route path='/:userID/reset/:token' element={<Reset />} />
+								<Route
+									path='/:userID/verify/:token'
+									element={<VerifyEmail />}
+								/>
+								<Route path='/' element={<Landing />}>
+									<Route index element={<Home />} />
+									<Route path='/store/:id' element={<Store />} />
+									<Route path='/cart' element={<Cart />} />
+									<Route path='/manage-account' element={<Profile />} />
+									<Route path='/orders/view/:orderID' element={<ViewOrder />} />
+									<Route
+										path='/manage-account/edit'
+										element={<EditProfile />}
+									/>
+								</Route>
+							</Routes>
+						</Router>
+					</UserProvider>
 				</OrderProvider>
 			</StoreProvider>
 		</div>

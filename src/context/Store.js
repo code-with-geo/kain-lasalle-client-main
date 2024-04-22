@@ -15,7 +15,6 @@ export const StoreProvider = ({ children }) => {
 					})
 					.catch((err) => {
 						if (err.response) Error();
-						console.log(err);
 					});
 			} catch (error) {
 				console.log(error);

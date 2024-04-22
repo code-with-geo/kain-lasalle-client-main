@@ -64,6 +64,18 @@ const Bottom = styled.div`
 	justify-content: right;
 `;
 
+function formatDate(inputDate) {
+	const date = new Date(inputDate);
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
+	const day = date.getDate().toString().padStart(2, "0");
+	const hours = date.getHours().toString().padStart(2, "0");
+	const minutes = date.getMinutes().toString().padStart(2, "0");
+	const seconds = date.getSeconds().toString().padStart(2, "0");
+
+	return `${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
+}
+
 function ViewOrder() {
 	const navigate = useNavigate();
 	const { orderID } = useParams();
@@ -71,6 +83,8 @@ function ViewOrder() {
 	const data = ordersDataByID(orderID);
 	const isPaymentCompleted =
 		data != null && data[0].paymentStatus !== "pending";
+
+	const formatedDate = formatDate(data != null && data[0].estimatedDateTime);
 
 	const payOrder = () => {
 		try {
@@ -106,8 +120,15 @@ function ViewOrder() {
 						<Right>
 							<Label fontSize='13px' display='flex' alignItems='center'>
 								Order Status:
-								<Label fontSize='13px' marginLeft='10px'>
+								<Label fontSize='13px' marginLeft='10px' marginRight='20px'>
 									{data != null && data[0].orderStatus}
+								</Label>
+							</Label>
+
+							<Label fontSize='13px' display='flex' alignItems='center'>
+								Your order will be ready at:
+								<Label fontSize='13px' marginLeft='10px'>
+									{formatedDate}
 								</Label>
 							</Label>
 						</Right>

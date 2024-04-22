@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Label } from "../Components.styled";
 import { Edit } from "@mui/icons-material";
 import { useUserData } from "../../context/User";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
 	padding: 10px;
@@ -42,7 +43,7 @@ const ListItem = styled.li`
 
 function UserInfo() {
 	const user = useUserData();
-	console.log(user);
+	const navigate = useNavigate();
 	return (
 		<>
 			<Container>
@@ -53,7 +54,10 @@ function UserInfo() {
 						</Label>
 					</Left>
 					<Right>
-						<EditButton fontSize='small' />
+						<EditButton
+							fontSize='small'
+							onClick={() => navigate("/manage-account/edit")}
+						/>
 					</Right>
 				</Header>
 				<Body>
