@@ -78,14 +78,6 @@ function UserInfo() {
 								{user != null ? user.email : ""}
 							</Label>
 						</ListItem>
-						<ListItem>
-							<Label color='#383737' fontSize='12px' fontWeight='400'>
-								Mobile Number:
-							</Label>
-							<Label color='#383737' fontSize='12px' fontWeight='500'>
-								{user != null ? user.phonenumber : "N/A"}
-							</Label>
-						</ListItem>
 					</List>
 				</Body>
 			</Container>
