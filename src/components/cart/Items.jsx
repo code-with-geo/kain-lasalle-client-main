@@ -164,7 +164,6 @@ function Items() {
 					if (res.data.responsecode === "402") {
 						ToggleMessage("error", res.data.message);
 					} else if (res.data.responsecode === "200") {
-						ToggleMessage("success", res.data.message);
 					}
 				})
 				.catch((err) => {
@@ -185,7 +184,6 @@ function Items() {
 					if (res.data.responsecode === "402") {
 						ToggleMessage("error", res.data.message);
 					} else if (res.data.responsecode === "200") {
-						ToggleMessage("success", res.data.message);
 					}
 				})
 				.catch((err) => {

@@ -54,7 +54,6 @@ function Cards() {
 						if (res.data.responsecode === "402") {
 							ToggleMessage("error", res.data.message);
 						} else if (res.data.responsecode === "200") {
-							ToggleMessage("success", res.data.message);
 						}
 					})
 					.catch((err) => {
@@ -96,7 +95,6 @@ function Cards() {
 					if (res.data.responsecode === "402") {
 						CartConditionBox(id, userID, productID, price);
 					} else if (res.data.responsecode === "200") {
-						ToggleMessage("success", res.data.message);
 					}
 				})
 				.catch((err) => {
