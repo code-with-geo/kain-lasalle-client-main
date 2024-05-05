@@ -85,8 +85,6 @@ function ViewOrder() {
 	const isPaymentCompleted =
 		data != null && data[0].paymentStatus !== "pending";
 
-	const formatedDate = formatDate(data != null && data[0].estimatedDateTime);
-
 	const payOrder = () => {
 		try {
 			Axios.post(
@@ -123,13 +121,6 @@ function ViewOrder() {
 								Order Status:
 								<Label fontSize='13px' marginLeft='10px' marginRight='20px'>
 									{data != null && data[0].orderStatus}
-								</Label>
-							</Label>
-
-							<Label fontSize='13px' display='flex' alignItems='center'>
-								Your order will be ready at:
-								<Label fontSize='13px' marginLeft='10px'>
-									{formatedDate}
 								</Label>
 							</Label>
 						</Right>

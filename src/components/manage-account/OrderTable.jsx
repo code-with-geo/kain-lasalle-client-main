@@ -10,14 +10,17 @@ const Container = styled.div`
 	height: 500px;
 `;
 
-const Image = styled.img`
-	width: 50px;
-	height: 50px;
-`;
 const TableColumns = [
 	{
 		field: "_id",
 		headerName: "Order ID",
+		flex: 1,
+		resizable: false,
+		headerClassName: "theme-header",
+	},
+	{
+		field: "orderNumber",
+		headerName: "Order Number",
 		flex: 1,
 		resizable: false,
 		headerClassName: "theme-header",
