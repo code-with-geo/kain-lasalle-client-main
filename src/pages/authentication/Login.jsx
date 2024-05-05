@@ -10,6 +10,7 @@ import Axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { ToggleMessage } from "../../utils/SweetAlert";
 
 const Container = styled.div`
 	height: 100vh;
@@ -65,7 +66,7 @@ function Login() {
 			})
 				.then((res) => {
 					if (res.data.responsecode === "402") {
-						alert(res.data.message);
+						ToggleMessage("error", res.data.message);
 					} else if (res.data.responsecode === "200") {
 						setCookies("access_token", res.data.token);
 						window.localStorage.setItem("userID", res.data.userID);

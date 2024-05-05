@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Label, Button } from "../Components.styled";
+import { Label, Button, TextBox } from "../Components.styled";
 import { useCart } from "../../context/Cart";
 import Axios from "axios";
 import { useGetUserID } from "../../hooks/User";
 import { useNavigate } from "react-router-dom";
+import { ToggleMessage } from "../../utils/SweetAlert";
 
 const Container = styled.div`
 	width: 100%;
@@ -75,6 +76,12 @@ const ButtonContainer = styled.div`
 	margin-top: 20px;
 `;
 
+const PaymentMethod = styled.div`
+	display: flex;
+	align-items: center;
+	margin-bottom: 50px;
+`;
+
 function Items() {
 	const userID = useGetUserID();
 	const navigate = useNavigate();
@@ -100,6 +107,12 @@ function Items() {
 
 	const subtotal = totalCart();
 
+	const [paymentType, setPaymentType] = useState("Cash");
+
+	const handleCheckboxChange = (e) => {
+		setPaymentType(e.target.value);
+	};
+
 	const createOrder = () => {
 		try {
 			Axios.post(
@@ -108,14 +121,24 @@ function Items() {
 					userID,
 					storeID: getStoreID(),
 					total: subtotal,
+					paymentType,
 				}
 			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
 						console.log(res.data.responsecode);
 					} else if (res.data.responsecode === "200") {
-						navigate("/");
-						window.open(`${res.data.paymenturl}`, "_blank");
+						if (res.data.paymenttype === "Pay Online") {
+							navigate("/");
+							window.open(`${res.data.paymenturl}`, "_blank");
+						} else {
+							ToggleMessage(
+								"success",
+								"Please pay over the counter here's your order id:" +
+									res.data.ordernumber
+							);
+							navigate("/");
+						}
 					}
 				})
 				.catch((err) => {
@@ -139,9 +162,9 @@ function Items() {
 			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
-						alert(res.data.message);
+						ToggleMessage("error", res.data.message);
 					} else if (res.data.responsecode === "200") {
-						alert(res.data.message);
+						ToggleMessage("success", res.data.message);
 					}
 				})
 				.catch((err) => {
@@ -160,9 +183,9 @@ function Items() {
 			})
 				.then((res) => {
 					if (res.data.responsecode === "402") {
-						alert(res.data.message);
+						ToggleMessage("error", res.data.message);
 					} else if (res.data.responsecode === "200") {
-						alert(res.data.message);
+						ToggleMessage("success", res.data.message);
 					}
 				})
 				.catch((err) => {
@@ -227,6 +250,27 @@ function Items() {
 					});
 				})}
 			<Footer>
+				<PaymentMethod>
+					<Label marginRight='50px'>
+						<TextBox
+							type='checkbox'
+							value='Cash'
+							checked={paymentType === "Cash"}
+							onChange={handleCheckboxChange}
+						/>
+						Cash
+					</Label>
+					<br />
+					<Label>
+						<TextBox
+							type='checkbox'
+							value='Pay Online'
+							checked={paymentType === "Pay Online"}
+							onChange={handleCheckboxChange}
+						/>
+						Pay Online
+					</Label>
+				</PaymentMethod>
 				<Wrapper>
 					<Label marginRight='200px'>Total</Label>
 					<Label>PHP {subtotal}</Label>

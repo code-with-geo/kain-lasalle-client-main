@@ -5,6 +5,8 @@ import { useProduct } from "../../context/Product";
 import { useGetUserID } from "../../hooks/User";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
+import Swal from "sweetalert2";
+import { ToggleMessage } from "../../utils/SweetAlert";
 
 const Container = styled.div`
 	display: flex;
@@ -35,6 +37,50 @@ function Cards() {
 	const userID = useGetUserID();
 	const { id } = useParams();
 
+	const CartConditionBox = (storeID, userID, productID, price) => {
+		const addToCart = () => {
+			try {
+				Axios.post(
+					`https://kain-lasalle-main-backend.onrender.com/cart/add-different-store`,
+					{
+						storeID,
+						userID,
+						productID,
+						price,
+						units: 1,
+					}
+				)
+					.then((res) => {
+						if (res.data.responsecode === "402") {
+							ToggleMessage("error", res.data.message);
+						} else if (res.data.responsecode === "200") {
+							ToggleMessage("success", res.data.message);
+						}
+					})
+					.catch((err) => {
+						if (err.response) Error();
+					});
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		Swal.fire({
+			title: "Start New Basket?",
+			text: "Adding this item from this store will clear your basket from previous store.",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#b0c5a4",
+			confirmButtonText: "Proceed",
+			cancelButtonColor: "#FF204E",
+			cancelButtonText: `Cancel`,
+		}).then((result) => {
+			if (result.isConfirmed) {
+				addToCart();
+			}
+		});
+	};
+
 	const _addToCart = (productID, price) => {
 		try {
 			Axios.post(
@@ -48,17 +94,15 @@ function Cards() {
 			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
-						alert(res.data.message);
+						CartConditionBox(id, userID, productID, price);
 					} else if (res.data.responsecode === "200") {
-						alert(res.data.message);
+						ToggleMessage("success", res.data.message);
 					}
 				})
 				.catch((err) => {
 					if (err.response) Error();
 				});
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	return (

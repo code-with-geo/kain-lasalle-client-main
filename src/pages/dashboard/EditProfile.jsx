@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/User";
 import Axios from "axios";
 import { useForm } from "react-hook-form";
+import { ToggleMessage } from "../../utils/SweetAlert";
 
 const Container = styled.div``;
 
@@ -78,9 +79,9 @@ function EditProfile() {
 			})
 				.then((res) => {
 					if (res.data.responsecode === "402") {
-						alert(res.data.message);
+						ToggleMessage("error", res.data.message);
 					} else if (res.data.responsecode === "200") {
-						alert(res.data.message);
+						ToggleMessage("success", res.data.message);
 						navigate("/manage-account");
 					}
 				})

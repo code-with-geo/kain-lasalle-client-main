@@ -6,6 +6,7 @@ import OrderItemsTable from "../../components/manage-account/OrderItemsTable";
 import { Button, Label } from "../../components/Components.styled";
 import { useOrder } from "../../context/Orders";
 import Axios from "axios";
+import { ToggleMessage } from "../../utils/SweetAlert";
 
 const Container = styled.div``;
 
@@ -96,7 +97,7 @@ function ViewOrder() {
 			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
-						alert(res.data.message);
+						ToggleMessage("error", res.data.message);
 					} else if (res.data.responsecode === "200") {
 						window.open(`${res.data.paymentURL}`, "_blank");
 					}
@@ -148,15 +149,17 @@ function ViewOrder() {
 							<Label>{data != null && data[0].total}</Label>
 						</Top>
 						<Bottom>
-							<Button
-								height='40px'
-								width='200px'
-								bgColor='#b0c5a4'
-								color='#fff'
-								disabled={isPaymentCompleted}
-								onClick={() => payOrder()}>
-								Pay Order
-							</Button>
+							{data != null && data[0].paymentType === "Pay Online" && (
+								<Button
+									height='40px'
+									width='200px'
+									bgColor='#b0c5a4'
+									color='#fff'
+									disabled={isPaymentCompleted}
+									onClick={() => payOrder()}>
+									Pay Order
+								</Button>
+							)}
 						</Bottom>
 					</ActionContianer>
 				</Wrapper>

@@ -3,8 +3,6 @@ import styled from "styled-components";
 import { Cancel, Visibility } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Axios from "axios";
-
 const Container = styled.div``;
 
 const ViewButton = styled(Visibility)`

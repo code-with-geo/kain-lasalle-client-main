@@ -9,6 +9,7 @@ import {
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { ToggleMessage } from "../../utils/SweetAlert";
 
 const Container = styled.div`
 	height: 100vh;
@@ -65,9 +66,9 @@ function Forgot() {
 			)
 				.then((res) => {
 					if (res.data.responsecode === "402") {
-						alert(res.data.message);
+						ToggleMessage("error", res.data.message);
 					} else if (res.data.responsecode === "200") {
-						alert(res.data.message);
+						ToggleMessage("success", res.data.message);
 						navigate("/login");
 					}
 				})
