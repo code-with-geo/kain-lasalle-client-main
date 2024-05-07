@@ -109,7 +109,7 @@ function Cards() {
 				product.map((product) => {
 					return (
 						<Container>
-							{product.quantity != 0 && (
+							{product.quantity !== "0" && (
 								<>
 									<Wrapper>
 										<Image src={product.image} alt='' />
