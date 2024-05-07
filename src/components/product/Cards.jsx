@@ -109,27 +109,40 @@ function Cards() {
 				product.map((product) => {
 					return (
 						<Container>
-							<Wrapper>
-								<Image src={product.image} alt='' />
-								<Content>
-									<Label fontSize='16px' fontWeight='600' marginBottom='10px'>
-										{product.name}
-									</Label>
-									<Label fontSize='10px' fontWeight='400' marginBottom='10px'>
-										{product.description}
-									</Label>
-									<Label fontSize='12px' fontWeight='500' marginBottom='10px'>
-										PHP {product.price}
-									</Label>
-								</Content>
-							</Wrapper>
-							<Button
-								bgColor='#b0c5a4'
-								color='#fff'
-								padding='10px'
-								onClick={() => _addToCart(product._id, product.price)}>
-								Add to cart
-							</Button>
+							{product.quantity != 0 && (
+								<>
+									<Wrapper>
+										<Image src={product.image} alt='' />
+										<Content>
+											<Label
+												fontSize='16px'
+												fontWeight='600'
+												marginBottom='10px'>
+												{product.name}
+											</Label>
+											<Label
+												fontSize='10px'
+												fontWeight='400'
+												marginBottom='10px'>
+												{product.description}
+											</Label>
+											<Label
+												fontSize='12px'
+												fontWeight='500'
+												marginBottom='10px'>
+												PHP {product.price}
+											</Label>
+										</Content>
+									</Wrapper>
+									<Button
+										bgColor='#b0c5a4'
+										color='#fff'
+										padding='10px'
+										onClick={() => _addToCart(product._id, product.price)}>
+										Add to cart
+									</Button>
+								</>
+							)}
 						</Container>
 					);
 				})}
