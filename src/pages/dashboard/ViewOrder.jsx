@@ -7,7 +7,7 @@ import { Button, Label } from "../../components/Components.styled";
 import { useOrder } from "../../context/Orders";
 import Axios from "axios";
 import { ToggleMessage } from "../../utils/SweetAlert";
-
+import Swal from "sweetalert2";
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -82,8 +82,6 @@ function ViewOrder() {
 	const { orderID } = useParams();
 	const { ordersDataByID } = useOrder();
 	const data = ordersDataByID(orderID);
-	const isPaymentCompleted =
-		data != null && data[0].paymentStatus !== "pending";
 
 	const payOrder = () => {
 		try {
@@ -107,6 +105,43 @@ function ViewOrder() {
 			console.log(error);
 		}
 	};
+
+	const cancelOrder = () => {
+		Swal.fire({
+			title: "Cancel Transaction",
+			text: "Are you sure you want to cancel this transaction?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#b0c5a4",
+			confirmButtonText: "Proceed",
+			cancelButtonColor: "#FF204E",
+			cancelButtonText: `Cancel`,
+		}).then((result) => {
+			if (result.isConfirmed) {
+				try {
+					Axios.post(
+						`https://kain-lasalle-main-backend.onrender.com/orders/cancellation`,
+						{
+							orderID,
+						}
+					)
+						.then((res) => {
+							if (res.data.responsecode === "402") {
+								ToggleMessage("error", res.data.message);
+							} else if (res.data.responsecode === "200") {
+								ToggleMessage("error", res.data.message);
+							}
+						})
+						.catch((err) => {
+							if (err.response) Error();
+						});
+				} catch (error) {
+					console.log(error);
+				}
+			}
+		});
+	};
+
 	return (
 		<>
 			<Container>
@@ -140,17 +175,35 @@ function ViewOrder() {
 							<Label>{data != null && data[0].total}</Label>
 						</Top>
 						<Bottom>
-							{data != null && data[0].paymentType === "Pay Online" && (
-								<Button
-									height='40px'
-									width='200px'
-									bgColor='#b0c5a4'
-									color='#fff'
-									disabled={isPaymentCompleted}
-									onClick={() => payOrder()}>
-									Pay Order
-								</Button>
-							)}
+							{(data != null && data[0].paymentStatus !== "Unpaid") ||
+								(data != null && data[0].orderStatus !== "Cancelled" && (
+									<Button
+										height='40px'
+										width='200px'
+										marginRight={
+											data != null &&
+											data[0].paymentType === "Pay Online" &&
+											"10px"
+										}
+										bgColor='#EE4E4E'
+										color='#fff'
+										onClick={() => cancelOrder()}>
+										Cancel Order
+									</Button>
+								))}
+							{data != null &&
+								data[0].paymentType === "Pay Online" &&
+								data[0].orderStatus !== "Cancelled" &&
+								data[0].paymentStatus !== "Paid" && (
+									<Button
+										height='40px'
+										width='200px'
+										bgColor='#b0c5a4'
+										color='#fff'
+										onClick={() => payOrder()}>
+										Pay Order
+									</Button>
+								)}
 						</Bottom>
 					</ActionContianer>
 				</Wrapper>

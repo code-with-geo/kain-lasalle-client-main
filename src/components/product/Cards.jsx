@@ -100,7 +100,9 @@ function Cards() {
 				.catch((err) => {
 					if (err.response) Error();
 				});
-		} catch (error) {}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
