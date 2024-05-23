@@ -110,7 +110,7 @@ const GetStoreInfo = (storeID) => {
 		const interval = setInterval(getStores, 1000);
 		return () => clearInterval(interval);
 	}, [store]);
-	return orders;
+	return store;
 };
 
 export const OrderProvider = (props) => {

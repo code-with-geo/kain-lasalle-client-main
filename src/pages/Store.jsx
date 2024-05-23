@@ -19,6 +19,18 @@ const Content = styled.div`
 	grid-template-columns: repeat(4, 1fr);
 	grid-gap: 20px;
 `;
+const StoreInfo = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+	flex-direction: column;
+`;
+
+const Logo = styled.img`
+	width: 50px;
+	height: 50px;
+`;
 
 function Store() {
 	const { id } = useParams();
@@ -27,14 +39,25 @@ function Store() {
 	return (
 		<>
 			<Container>
+				{" "}
+				<StoreInfo>
+					<Logo src={data != null && data.image} alt='' />
+					<Label fontSize='20px' fontWeight='500'>
+						{data != null && data.name}
+					</Label>
+					<Label fontSize='12px'>{data != null && data.address}</Label>
+					<Label fontSize='12px'>{data != null && data.storehour}</Label>
+					<Label fontSize='12px'>{data != null && data.contactperson}</Label>
+					<Label fontSize='12px'>{data != null && data.contactno}</Label>
+				</StoreInfo>
 				<Label
 					color='#383737'
 					fontSize='25px'
 					fontWeight='500'
-					marginBottom='10px'>
+					marginBottom='10px'
+					marginTop='20px'>
 					Menu
 				</Label>
-				<Label marginRight='50px'>{data != null && data.name}</Label>
 				<ProductProvider storeID={id}>
 					<Content>
 						<Cards />
