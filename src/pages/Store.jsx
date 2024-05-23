@@ -4,6 +4,7 @@ import { Label } from "../components/Components.styled";
 import { ProductProvider } from "../context/Product";
 import { useParams } from "react-router-dom";
 import Cards from "../components/product/Cards";
+import { useOrder } from "../context/Orders";
 
 const Container = styled.div`
 	width: 100%;
@@ -21,6 +22,8 @@ const Content = styled.div`
 
 function Store() {
 	const { id } = useParams();
+	const { storeData } = useOrder();
+	const data = storeData(id);
 	return (
 		<>
 			<Container>
@@ -31,6 +34,7 @@ function Store() {
 					marginBottom='10px'>
 					Menu
 				</Label>
+				<Label marginRight='50px'>{data != null && data.name}</Label>
 				<ProductProvider storeID={id}>
 					<Content>
 						<Cards />
